@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3 id="msg">Getting location... please allow.</h3>
+
+<script>
+  // USE YOUR PREFILL LINK BELOW (already inserted)
+  const PREFILL = "https://docs.google.com/forms/d/e/1FAIpQLSeLQe_L2Kq9L54bl-tEAN9kDW4OP7swo_emkrnHi04sRKJmrA/viewform?usp=pp_url&entry.744739674=LAT&entry.1148987224=LON&entry.43781395=DEV";
+
+  function show(msg){
+    document.getElementById("msg").innerText = msg;
+  }
+
+  // Ask for location
+  if (!navigator.geolocation){
+    show("Your device does not support location.");
+  } else {
+    navigator.geolocation.getCurrentPosition(success, fail);
+  }
+
+  function success(pos){
+    const lat = pos.coords.latitude.toFixed(6);
+    const lon = pos.coords.longitude.toFixed(6);
+    const dev = encodeURIComponent(navigator.userAgent);
+
+    // Replace placeholders
+    const finalURL = PREFILL
+      .replace("LAT", lat)
+      .replace("LON", lon)
+      .replace("DEV", dev);
+
+    show("Opening form... please tap SUBMIT on next page.");
+
+    // Redirect user to form
+    window.location.href = finalURL;
+  }
+
+  function fail(){
+    show("Please ALLOW location and refresh the page.");
+  }
+</script>
+
+</body>
+</html>
